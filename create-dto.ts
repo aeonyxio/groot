@@ -1,4 +1,4 @@
-import {
+import type {
   ArraySchema,
   ObjectSchema,
   Parameter,
@@ -84,7 +84,7 @@ export const createType = (config: {
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `${referencedType}`;
     importRes.add(
-      `import {${referencedType}} from '${config.importPathPrefix}/${referencedType}.ts';`,
+      `import {${referencedType}} from '${config.importPathPrefix}/${referencedType}.ts';`
     );
   } else if ((config.schema as ArraySchema).type === "array") {
     const schema = config.schema as ArraySchema;
