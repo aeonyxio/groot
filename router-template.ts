@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from "./casing.ts";
 export const routerTemplate = (
   imports: string,
   operations: string,
-  routes: string,
+  routes: string
 ) =>
   `\
 import { Router } from "https://deno.land/x/oak@v11.1.0/mod.ts";
@@ -18,7 +18,7 @@ router${routes};
 
 export const importInterfaceForRouter = (
   interfaceName: string,
-  path: string,
+  path: string
 ) => {
   return `import { ${interfaceName} } from '${path}';`;
 };
@@ -104,7 +104,6 @@ export const routeTemplate = ({
   const fnName = operationId;
   const inputs: string[] = [];
   const outputs: string[] = [];
-  const outputHandlings: string[] = [];
   if (pathParamsType) inputs.push(`params: context.params,`);
   if (queryParamsType) {
     inputs.push(`query: getQuery(context) as ${queryParamsType},`);
@@ -128,7 +127,7 @@ export const routeTemplate = ({
         const res = await ${fnName}({
             ${inputs.join("\n            ")}
         });
-        ${outputHandlings.join("\n        ")}
+        ${outputs.join("\n        ")}
         if(res?.status !== undefined) context.response.status = res.status;
     })`;
 };
