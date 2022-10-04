@@ -6,43 +6,18 @@ export const apiMethods: ApiMethods[] = [
   "delete",
   "patch",
 ];
-export interface PathParameter {
-  name: string;
-  in: "path";
-  description?: string;
-  required?: boolean;
-  schema: ReferenceSchema | StandardSchema;
-}
-export interface QueryParameter {
-  name: string;
-  in: "query";
-  description?: string;
-  required?: boolean;
-  schema: Schema;
-}
-export type Parameter = PathParameter | QueryParameter;
+
 export interface Specification {
   paths?: {
     [url: string]: {
       [method in ApiMethods]: {
         operationId: string;
-        parameters?: Array<Parameter>;
-        requestBody?: {
-          content?: {
-            "application/json"?: {
-              schema?: Schema;
-            };
-          };
-        };
-        responses?: {
-          [statusCode: number]: {
-            content?: {
-              "application/json"?: {
-                schema?: Schema;
-              };
-            };
-          };
-        };
+        pathParams?: Schema;
+        queryParams?: Schema;
+        requestHeaders?: Schema;
+        requestBody?: Schema;
+        responseHeaders?: Schema;
+        responseBody?: Schema;
       };
     };
   };

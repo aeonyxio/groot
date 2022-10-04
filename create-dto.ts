@@ -1,7 +1,6 @@
 import type {
   ArraySchema,
   ObjectSchema,
-  Parameter,
   ReferenceSchema,
   Schema,
   StandardSchema,
@@ -30,38 +29,6 @@ ${contents.map((line) => ` * ${line}`)}
   }
 };
 
-export const createParamType = ({
-  name,
-  parameters,
-  importPathPrefix,
-}: {
-  name?: string;
-  parameters: Parameter[];
-  importPathPrefix: string;
-}): {
-  imports: Set<string>;
-  code: string;
-} => {
-  let props = "";
-  let importRes = new Set<string>();
-  for (const param of parameters) {
-    const { code, imports, description } = createType({
-      schema: param.schema,
-      depth: 1,
-      semiColon: true,
-      importPathPrefix,
-    });
-    importRes = new Set([...importRes, ...imports]);
-    const optionalFlag = param.required ? "" : "?";
-    if (description) {
-      props += buildDescription({ description });
-    }
-    props += `${param.name}${optionalFlag}:${code}`;
-  }
-  const codeRes = `export type ${name} = {${props}}`;
-  return { imports: importRes, code: codeRes };
-};
-
 export const createType = (config: {
   name?: string;
   schema: Schema;
@@ -80,7 +47,9 @@ export const createType = (config: {
 
   if ((config.schema as ReferenceSchema).$ref) {
     const schema = config.schema as ReferenceSchema;
-    const referencedType = schema.$ref.replace(/^#\/components\/schemas\//, "");
+    const referencedType = schema.$ref.substring(
+      schema.$ref.lastIndexOf("/") + 1
+    );
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `${referencedType}`;
     importRes.add(
@@ -96,7 +65,7 @@ export const createType = (config: {
     });
     importRes = new Set([...importRes, ...imports]);
     if (depth === 0) codeRes += `export type ${name} = `;
-    codeRes += `Array<${code}>`;
+    codeRes += `${code}[]`;
   } else if ((config.schema as ObjectSchema).type === "object") {
     const schema = config.schema as ObjectSchema;
     let props = "";
@@ -114,7 +83,7 @@ export const createType = (config: {
       }
       props += `${propName}${optionalFlag}:${code}`;
     }
-    if (depth === 0) codeRes += `export interface ${name} `;
+    if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `{${props}}`;
   } else {
     const schema = config.schema as StandardSchema;
