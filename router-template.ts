@@ -50,7 +50,7 @@ export const registerOperationsTemplate = ({
   if (responseHeadersType) outputs.push(`    headers: ${responseHeadersType};`);
   if (responseBodyType) outputs.push(`    body: ${responseBodyType};`);
   return `
-type ${fnName} = (args: ${
+export type ${fnName} = (args: ${
     inputs.length
       ? `{
 ${inputs.join("\n")}
@@ -65,7 +65,6 @@ ${outputs.join("\n")}
 }>${outputs.length ? "" : " | void"};
 
 let ${operationId}: ${fnName} | undefined = undefined;
-
 export const register${fnName} = (fn: ${fnName}) => {
     ${operationId} = fn;
 };
