@@ -6,8 +6,8 @@ export const routerTemplate = (
   routes: string
 ) =>
   `\
-import { Router } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import { getQuery } from "https://deno.land/x/oak@v11.1.0/helpers.ts";
+import { Router } from "$oak/mod.ts";
+import { getQuery } from "$oak/helpers.ts";
 ${imports}
 
 ${operations}
