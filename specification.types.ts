@@ -50,6 +50,7 @@ export interface ArraySchema {
 export interface ObjectSchema {
   type: "object";
   properties: { [url: string]: Schema };
+  additionalProperties: Schema;
   required?: Array<string>;
 }
 

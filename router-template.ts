@@ -49,7 +49,7 @@ export const registerOperationsTemplate = ({
   if (requestBodyType) inputs.push(`    body: ${requestBodyType};`);
   if (responseHeadersType) outputs.push(`    headers: ${responseHeadersType};`);
   if (responseBodyType) outputs.push(`    body: ${responseBodyType};`);
-  return `
+  return `\
 export type ${fnName} = (args: ${
     inputs.length
       ? `{
@@ -63,7 +63,6 @@ ${outputs.join("\n")}
 ${outputs.join("\n")}
     status?: number;
 }>${outputs.length ? "" : " | void"};
-
 let ${operationId}: ${fnName} | undefined = undefined;
 export const register${fnName} = (fn: ${fnName}) => {
     ${operationId} = fn;

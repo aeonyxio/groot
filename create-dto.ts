@@ -69,19 +69,34 @@ export const createType = (config: {
   } else if ((config.schema as ObjectSchema).type === "object") {
     const schema = config.schema as ObjectSchema;
     let props = "";
-    for (const propName of Object.getOwnPropertyNames(schema.properties)) {
+    if (schema.properties) {
+      for (const propName of Object.getOwnPropertyNames(schema.properties)) {
+        const { code, imports, description } = createType({
+          schema: schema.properties[propName],
+          depth: depth + 1,
+          semiColon: true,
+          importPathPrefix: config.importPathPrefix,
+        });
+        importRes = new Set([...importRes, ...imports]);
+        const optionalFlag = schema.required?.includes(propName) ? "" : "?";
+        if (description) {
+          props += buildDescription({ description });
+        }
+        props += `${propName}${optionalFlag}:${code}`;
+      }
+    }
+    if (schema.additionalProperties) {
       const { code, imports, description } = createType({
-        schema: schema.properties[propName],
+        schema: schema.additionalProperties,
         depth: depth + 1,
         semiColon: true,
         importPathPrefix: config.importPathPrefix,
       });
       importRes = new Set([...importRes, ...imports]);
-      const optionalFlag = schema.required?.includes(propName) ? "" : "?";
       if (description) {
         props += buildDescription({ description });
       }
-      props += `${propName}${optionalFlag}:${code}`;
+      props += `[key:string]:${code}`;
     }
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `{${props}}`;
