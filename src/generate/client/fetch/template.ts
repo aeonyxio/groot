@@ -87,10 +87,12 @@ export const operationsTemplate = ({
   }
 
   return `\
-  ${fnName} = async ({
+  ${fnName} = async (${
+    fnParamVarTypes === ""
+      ? ""
+      : `{
     ${fnParamVars}
-  }: ${
-    fnParamVarTypes === "" ? "Record<never, never>" : `{${fnParamVarTypes}}`
+  }: {${fnParamVarTypes}}`
   }): Promise<{
     ${fnReturnVarTypes}
   }> => {
