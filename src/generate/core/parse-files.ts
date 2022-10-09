@@ -65,13 +65,7 @@ export const parseFiles = (
           tsImportSuffix,
         });
 
-        writeInterface(
-          join(
-            appPath,
-            `interfaces/common/${name}${tsImportSuffix ? ".ts" : ""}`
-          ),
-          code
-        );
+        writeInterface(join(appPath, `interfaces/common/${name}.ts`), code);
       }
     }
   }

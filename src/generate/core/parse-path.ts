@@ -39,7 +39,7 @@ const createSchema = ({
       tsImportSuffix,
     });
 
-    writeInterface(join(appPath, references.path), code);
+    writeInterface(join(appPath, `${references.path}.ts`), code);
   }
   return references;
 };

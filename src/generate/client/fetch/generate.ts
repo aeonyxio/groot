@@ -9,7 +9,8 @@ import {
 
 export const generateFetchClient = (
   appPath: string,
-  pathData: Set<PathData>
+  pathData: Set<PathData>,
+  tsImportSuffix: boolean
 ) => {
   const routeImports = new Set<string>();
   const routeOperations = new Set<string>();
@@ -19,7 +20,8 @@ export const generateFetchClient = (
       routeImports.add(
         importInterfaceTemplate(
           path.pathParams.type,
-          `./${path.pathParams.path}`
+          `./${path.pathParams.path}`,
+          tsImportSuffix
         )
       );
     }
@@ -27,7 +29,8 @@ export const generateFetchClient = (
       routeImports.add(
         importInterfaceTemplate(
           path.queryParams.type,
-          `./${path.queryParams.path}`
+          `./${path.queryParams.path}`,
+          tsImportSuffix
         )
       );
     }
@@ -35,7 +38,8 @@ export const generateFetchClient = (
       routeImports.add(
         importInterfaceTemplate(
           path.requestBody.type,
-          `./${path.requestBody.path}`
+          `./${path.requestBody.path}`,
+          tsImportSuffix
         )
       );
     }
@@ -43,7 +47,8 @@ export const generateFetchClient = (
       routeImports.add(
         importInterfaceTemplate(
           path.responseBody.type,
-          `./${path.responseBody.path}`
+          `./${path.responseBody.path}`,
+          tsImportSuffix
         )
       );
     }

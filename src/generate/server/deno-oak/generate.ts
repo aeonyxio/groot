@@ -10,7 +10,8 @@ import {
 
 export const generateDenoOakRouter = (
   appPath: string,
-  pathData: Set<PathData>
+  pathData: Set<PathData>,
+  tsImportSuffix: boolean
 ) => {
   const routeImports = new Set<string>();
   const routeOperations = new Set<string>();
@@ -21,7 +22,8 @@ export const generateDenoOakRouter = (
       routeImports.add(
         importInterfaceForRouter(
           path.pathParams.type,
-          `./${path.pathParams.path}`
+          `./${path.pathParams.path}`,
+          tsImportSuffix
         )
       );
     }
@@ -29,7 +31,8 @@ export const generateDenoOakRouter = (
       routeImports.add(
         importInterfaceForRouter(
           path.queryParams.type,
-          `./${path.queryParams.path}`
+          `./${path.queryParams.path}`,
+          tsImportSuffix
         )
       );
     }
@@ -37,7 +40,8 @@ export const generateDenoOakRouter = (
       routeImports.add(
         importInterfaceForRouter(
           path.requestBody.type,
-          `./${path.requestBody.path}`
+          `./${path.requestBody.path}`,
+          tsImportSuffix
         )
       );
     }
@@ -45,7 +49,8 @@ export const generateDenoOakRouter = (
       routeImports.add(
         importInterfaceForRouter(
           path.responseBody.type,
-          `./${path.responseBody.path}`
+          `./${path.responseBody.path}`,
+          tsImportSuffix
         )
       );
     }

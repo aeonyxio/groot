@@ -18,9 +18,12 @@ router${routes};
 
 export const importInterfaceForRouter = (
   interfaceName: string,
-  path: string
+  path: string,
+  tsImportSuffix: boolean
 ) => {
-  return `import type { ${interfaceName} } from '${path}';`;
+  return `import type { ${interfaceName} } from '${path}${
+    tsImportSuffix ? ".ts" : ""
+  }';`;
 };
 
 export const registerOperationsTemplate = ({
