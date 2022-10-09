@@ -10,12 +10,14 @@ const createSchema = ({
   appPath,
   objectName,
   fileName,
+  tsImportSuffix,
 }: {
   schema: Schema | undefined;
   operationId: string;
   appPath: string;
   objectName: string;
   fileName: string;
+  tsImportSuffix: boolean;
 }):
   | undefined
   | {
@@ -34,6 +36,7 @@ const createSchema = ({
       depth: 0,
       semiColon: true,
       importPathPrefix: "../../common",
+      tsImportSuffix,
     });
 
     writeInterface(join(appPath, references.path), code);
@@ -45,7 +48,8 @@ export const parsePath = (
   appPath: string,
   url: string,
   method: ApiMethods,
-  rawEndpoint: Endpoint
+  rawEndpoint: Endpoint,
+  tsImportSuffix: boolean
 ) => {
   const { operationId } = rawEndpoint;
 
@@ -55,6 +59,7 @@ export const parsePath = (
     appPath,
     objectName: "PathParams",
     fileName: "path-params.ts",
+    tsImportSuffix,
   });
 
   const queryParams = createSchema({
@@ -63,6 +68,7 @@ export const parsePath = (
     appPath,
     objectName: "QueryParams",
     fileName: "query-params.ts",
+    tsImportSuffix,
   });
 
   const requestBody = createSchema({
@@ -71,6 +77,7 @@ export const parsePath = (
     appPath,
     objectName: "RequestDto",
     fileName: "request-body.ts",
+    tsImportSuffix,
   });
 
   const responseBody = createSchema({
@@ -79,6 +86,7 @@ export const parsePath = (
     appPath,
     objectName: "ResponseDto",
     fileName: "response-body.ts",
+    tsImportSuffix,
   });
 
   return {

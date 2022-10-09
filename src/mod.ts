@@ -12,10 +12,15 @@ cli
     "Generate a set of typescript interfaces"
   )
   .option("--force", "Force the creation, deleting the given path if necessary")
+  .option("--tsImportSuffix", "Use a '.ts' on import statements (deno)")
   .action(
-    (appPath: string, filePaths: string[], options: { force: boolean }) => {
+    (
+      appPath: string,
+      filePaths: string[],
+      options: { force: boolean; tsImportSuffix: boolean }
+    ) => {
       alreadyExistsCheck(appPath, options.force);
-      parseFiles(appPath, filePaths);
+      parseFiles(appPath, filePaths, options.tsImportSuffix);
     }
   );
 
@@ -28,7 +33,7 @@ cli
   .action(
     (appPath: string, filePaths: string[], options: { force: boolean }) => {
       alreadyExistsCheck(appPath, options.force);
-      const pathData = parseFiles(appPath, filePaths);
+      const pathData = parseFiles(appPath, filePaths, true);
       generateDenoOakRouter(appPath, pathData);
     }
   );
@@ -39,10 +44,15 @@ cli
     "Generate a client service and interfaces for use fetch"
   )
   .option("--force", "Force the creation, deleting the given path if necessary")
+  .option("--tsImportSuffix", "Use a '.ts' on import statements (deno)")
   .action(
-    (appPath: string, filePaths: string[], options: { force: boolean }) => {
+    (
+      appPath: string,
+      filePaths: string[],
+      options: { force: boolean; tsImportSuffix: boolean }
+    ) => {
       alreadyExistsCheck(appPath, options.force);
-      const pathData = parseFiles(appPath, filePaths);
+      const pathData = parseFiles(appPath, filePaths, options.tsImportSuffix);
       generateFetchClient(appPath, pathData);
     }
   );

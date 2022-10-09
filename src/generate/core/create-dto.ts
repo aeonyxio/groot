@@ -35,6 +35,7 @@ export const createType = (config: {
   depth: number;
   semiColon: boolean;
   importPathPrefix: string;
+  tsImportSuffix: boolean;
 }): {
   imports: Set<string>;
   code: string;
@@ -53,7 +54,9 @@ export const createType = (config: {
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `${referencedType}`;
     importRes.add(
-      `import {${referencedType}} from '${config.importPathPrefix}/${referencedType}.ts';`
+      `import {${referencedType}} from '${
+        config.importPathPrefix
+      }/${referencedType}${config.tsImportSuffix ? ".ts" : ""}';`
     );
   } else if ((config.schema as ArraySchema).type === "array") {
     const schema = config.schema as ArraySchema;
@@ -62,6 +65,7 @@ export const createType = (config: {
       depth: depth + 1,
       semiColon: false,
       importPathPrefix: config.importPathPrefix,
+      tsImportSuffix: config.tsImportSuffix,
     });
     importRes = new Set([...importRes, ...imports]);
     if (depth === 0) codeRes += `export type ${name} = `;
@@ -76,6 +80,7 @@ export const createType = (config: {
           depth: depth + 1,
           semiColon: true,
           importPathPrefix: config.importPathPrefix,
+          tsImportSuffix: config.tsImportSuffix,
         });
         importRes = new Set([...importRes, ...imports]);
         const optionalFlag = schema.required?.includes(propName) ? "" : "?";
@@ -91,6 +96,7 @@ export const createType = (config: {
         depth: depth + 1,
         semiColon: true,
         importPathPrefix: config.importPathPrefix,
+        tsImportSuffix: config.tsImportSuffix,
       });
       importRes = new Set([...importRes, ...imports]);
       if (description) {

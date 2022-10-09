@@ -26,7 +26,11 @@ const getFileContents = (path: string) => {
   }
 };
 
-export const parseFiles = (appPath: string, filePaths: string[]) => {
+export const parseFiles = (
+  appPath: string,
+  filePaths: string[],
+  tsImportSuffix: boolean
+) => {
   const pathData = new Set<PathData>();
 
   for (const filePath of filePaths) {
@@ -43,7 +47,9 @@ export const parseFiles = (appPath: string, filePaths: string[]) => {
           if (!rawEndpoint) {
             continue;
           }
-          pathData.add(parsePath(appPath, url, method, rawEndpoint));
+          pathData.add(
+            parsePath(appPath, url, method, rawEndpoint, tsImportSuffix)
+          );
         }
       }
     } else {
@@ -56,9 +62,16 @@ export const parseFiles = (appPath: string, filePaths: string[]) => {
           depth: 0,
           semiColon: true,
           importPathPrefix: ".",
+          tsImportSuffix,
         });
 
-        writeInterface(join(appPath, `interfaces/common/${name}.ts`), code);
+        writeInterface(
+          join(
+            appPath,
+            `interfaces/common/${name}${tsImportSuffix ? ".ts" : ""}`
+          ),
+          code
+        );
       }
     }
   }
