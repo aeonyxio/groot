@@ -58,7 +58,7 @@ export const parsePath = (
     operationId,
     appPath,
     objectName: "PathParams",
-    fileName: "path-params.ts",
+    fileName: `path-params${tsImportSuffix ? ".ts" : ""}`,
     tsImportSuffix,
   });
 
@@ -67,7 +67,7 @@ export const parsePath = (
     operationId,
     appPath,
     objectName: "QueryParams",
-    fileName: "query-params.ts",
+    fileName: `query-params${tsImportSuffix ? ".ts" : ""}`,
     tsImportSuffix,
   });
 
@@ -76,7 +76,7 @@ export const parsePath = (
     operationId,
     appPath,
     objectName: "RequestDto",
-    fileName: "request-body.ts",
+    fileName: `request-body${tsImportSuffix ? ".ts" : ""}`,
     tsImportSuffix,
   });
 
@@ -85,7 +85,7 @@ export const parsePath = (
     operationId,
     appPath,
     objectName: "ResponseDto",
-    fileName: "response-body.ts",
+    fileName: `response-body${tsImportSuffix ? ".ts" : ""}`,
     tsImportSuffix,
   });
 
