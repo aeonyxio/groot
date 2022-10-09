@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from "./casing.ts";
+import { capitalizeFirstLetter } from "../../../util/casing.ts";
 
 export const routerTemplate = (
   imports: string,

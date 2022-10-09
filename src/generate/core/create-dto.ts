@@ -4,7 +4,7 @@ import type {
   ReferenceSchema,
   Schema,
   StandardSchema,
-} from "./specification.types.ts";
+} from "../../types/specification.ts";
 
 const typeMap = new Map<string, string>([
   ["integer", "number"],

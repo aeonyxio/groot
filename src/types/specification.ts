@@ -7,6 +7,16 @@ export const apiMethods: ApiMethods[] = [
   "patch",
 ];
 
+export interface Endpoint {
+  operationId: string;
+  pathParams?: Schema;
+  queryParams?: Schema;
+  requestHeaders?: Schema;
+  requestBody?: Schema;
+  responseHeaders?: Schema;
+  responseBody?: Schema;
+}
+
 export interface Specification {
   paths?: {
     [url: string]: {
