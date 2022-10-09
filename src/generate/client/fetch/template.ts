@@ -18,7 +18,7 @@ export const importInterfaceTemplate = (
   interfaceName: string,
   path: string
 ) => {
-  return `import { ${interfaceName} } from '${path}';`;
+  return `import type { ${interfaceName} } from '${path}';`;
 };
 
 export const operationsTemplate = ({

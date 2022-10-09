@@ -20,7 +20,7 @@ export const importInterfaceForRouter = (
   interfaceName: string,
   path: string
 ) => {
-  return `import { ${interfaceName} } from '${path}';`;
+  return `import type { ${interfaceName} } from '${path}';`;
 };
 
 export const registerOperationsTemplate = ({
