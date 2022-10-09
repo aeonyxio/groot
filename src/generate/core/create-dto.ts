@@ -54,7 +54,7 @@ export const createType = (config: {
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `${referencedType}`;
     importRes.add(
-      `import {${referencedType}} from '${
+      `import type {${referencedType}} from '${
         config.importPathPrefix
       }/${referencedType}${config.tsImportSuffix ? ".ts" : ""}';`
     );
