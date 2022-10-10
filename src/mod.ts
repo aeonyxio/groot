@@ -34,7 +34,7 @@ cli
     (appPath: string, filePaths: string[], options: { force: boolean }) => {
       alreadyExistsCheck(appPath, options.force);
       const pathData = parseFiles(appPath, filePaths, true);
-      generateDenoOakRouter(appPath, pathData);
+      generateDenoOakRouter(appPath, pathData, true);
     }
   );
 
@@ -53,7 +53,7 @@ cli
     ) => {
       alreadyExistsCheck(appPath, options.force);
       const pathData = parseFiles(appPath, filePaths, options.tsImportSuffix);
-      generateFetchClient(appPath, pathData);
+      generateFetchClient(appPath, pathData, options.tsImportSuffix);
     }
   );
 
