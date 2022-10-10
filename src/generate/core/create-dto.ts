@@ -49,14 +49,14 @@ export const createType = (config: {
   if ((config.schema as ReferenceSchema).$ref) {
     const schema = config.schema as ReferenceSchema;
     const referencedType = schema.$ref.substring(
-      schema.$ref.lastIndexOf("/") + 1
+      schema.$ref.lastIndexOf("/") + 1,
     );
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `${referencedType}`;
     importRes.add(
-      `import type {${referencedType}} from '${
-        config.importPathPrefix
-      }/${referencedType}${config.tsImportSuffix ? ".ts" : ""}';`
+      `import type {${referencedType}} from '${config.importPathPrefix}/${referencedType}${
+        config.tsImportSuffix ? ".ts" : ""
+      }';`,
     );
   } else if ((config.schema as ArraySchema).type === "array") {
     const schema = config.schema as ArraySchema;

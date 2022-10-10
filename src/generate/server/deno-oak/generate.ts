@@ -11,7 +11,7 @@ import {
 export const generateDenoOakRouter = (
   appPath: string,
   pathData: Set<PathData>,
-  tsImportSuffix: boolean
+  tsImportSuffix: boolean,
 ) => {
   const routeImports = new Set<string>();
   const routeOperations = new Set<string>();
@@ -23,8 +23,8 @@ export const generateDenoOakRouter = (
         importInterfaceForRouter(
           path.pathParams.type,
           `./${path.pathParams.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
     if (path.queryParams) {
@@ -32,8 +32,8 @@ export const generateDenoOakRouter = (
         importInterfaceForRouter(
           path.queryParams.type,
           `./${path.queryParams.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
     if (path.requestBody) {
@@ -41,8 +41,8 @@ export const generateDenoOakRouter = (
         importInterfaceForRouter(
           path.requestBody.type,
           `./${path.requestBody.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
     if (path.responseBody) {
@@ -50,8 +50,8 @@ export const generateDenoOakRouter = (
         importInterfaceForRouter(
           path.responseBody.type,
           `./${path.responseBody.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
 
@@ -72,14 +72,14 @@ export const generateDenoOakRouter = (
         queryParamsType: path.queryParams?.type,
         requestBodyType: path.requestBody?.type,
         responseBodyType: path.responseBody?.type,
-      })
+      }),
     );
   }
 
   const routerCode = routerTemplate(
     Array.from(routeImports).join("\n"),
     Array.from(routeOperations).join("\n"),
-    routeCode
+    routeCode,
   );
   writeInterface(join(appPath, `router.ts`), routerCode);
 };

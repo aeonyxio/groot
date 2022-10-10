@@ -2,9 +2,9 @@ import { extname, join } from "https://deno.land/std@0.114.0/path/win32.ts";
 import { YAML } from "../../../deps.ts";
 import { PathData } from "../../types/path-data.ts";
 import {
-  Specification,
   apiMethods,
   Schema,
+  Specification,
 } from "../../types/specification.ts";
 import { capitalizeFirstLetter } from "../../util/casing.ts";
 import { writeInterface } from "../../util/write-interface.ts";
@@ -29,7 +29,7 @@ const getFileContents = (path: string) => {
 export const parseFiles = (
   appPath: string,
   filePaths: string[],
-  tsImportSuffix: boolean
+  tsImportSuffix: boolean,
 ) => {
   const pathData = new Set<PathData>();
 
@@ -48,7 +48,7 @@ export const parseFiles = (
             continue;
           }
           pathData.add(
-            parsePath(appPath, url, method, rawEndpoint, tsImportSuffix)
+            parsePath(appPath, url, method, rawEndpoint, tsImportSuffix),
           );
         }
       }

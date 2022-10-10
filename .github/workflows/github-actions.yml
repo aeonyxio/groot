@@ -1,0 +1,33 @@
+name: QA
+
+on: push
+
+jobs:
+  check-quality:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1.1.0
+        with:
+          deno-version: v1.x # Run with latest stable Deno.
+
+      # Check if the code is formatted according to Deno's default formatting conventions.
+      - name: Check formatting
+        run: deno fmt --check
+
+      # Scan the code for syntax errors and style issues. If
+      - run: deno lint
+
+      # Run all test files in the repository and collect code coverage. The example
+      - name: Run tests
+        run: deno test --coverage=cov/
+
+      # This generates a report from the collected coverage in `deno test --coverage`. It is
+      - name: Create coverage report
+        run: deno coverage --lcov cov/ > cov/cov.lcov
+
+      # Upload the report on Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./cov/cov.lcov

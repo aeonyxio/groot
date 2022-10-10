@@ -17,7 +17,7 @@ ${operations}
 export const importInterfaceTemplate = (
   interfaceName: string,
   path: string,
-  tsImportSuffix: boolean
+  tsImportSuffix: boolean,
 ) => {
   return `import type { ${interfaceName} } from '${path}${
     tsImportSuffix ? ".ts" : ""
@@ -88,17 +88,17 @@ export const operationsTemplate = ({
 
   return `\
   ${fnName} = async (${
-    fnParamVarTypes === ""
-      ? ""
-      : `{
+    fnParamVarTypes === "" ? "" : `{
     ${fnParamVars}
   }: {${fnParamVarTypes}}`
   }): Promise<{
     ${fnReturnVarTypes}
   }> => {
-    const res = await fetch(\`\${this.baseUri}${clientUrlTemplate(
-      url
-    )}${queryAssign}\`,{
+    const res = await fetch(\`\${this.baseUri}${
+    clientUrlTemplate(
+      url,
+    )
+  }${queryAssign}\`,{
       method: '${method.toUpperCase()}'
       ${fetchOpts}
     });

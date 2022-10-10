@@ -10,7 +10,7 @@ import {
 export const generateFetchClient = (
   appPath: string,
   pathData: Set<PathData>,
-  tsImportSuffix: boolean
+  tsImportSuffix: boolean,
 ) => {
   const routeImports = new Set<string>();
   const routeOperations = new Set<string>();
@@ -21,8 +21,8 @@ export const generateFetchClient = (
         importInterfaceTemplate(
           path.pathParams.type,
           `./${path.pathParams.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
     if (path.queryParams) {
@@ -30,8 +30,8 @@ export const generateFetchClient = (
         importInterfaceTemplate(
           path.queryParams.type,
           `./${path.queryParams.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
     if (path.requestBody) {
@@ -39,8 +39,8 @@ export const generateFetchClient = (
         importInterfaceTemplate(
           path.requestBody.type,
           `./${path.requestBody.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
     if (path.responseBody) {
@@ -48,8 +48,8 @@ export const generateFetchClient = (
         importInterfaceTemplate(
           path.responseBody.type,
           `./${path.responseBody.path}`,
-          tsImportSuffix
-        )
+          tsImportSuffix,
+        ),
       );
     }
 
@@ -62,13 +62,13 @@ export const generateFetchClient = (
         queryParamsType: path.queryParams?.type,
         requestBodyType: path.requestBody?.type,
         responseBodyType: path.responseBody?.type,
-      })
+      }),
     );
   }
 
   const routerCode = template(
     Array.from(routeImports).join("\n"),
-    Array.from(routeOperations).join("\n")
+    Array.from(routeOperations).join("\n"),
   );
   writeInterface(join(appPath, `service.ts`), routerCode);
 };

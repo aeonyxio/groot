@@ -9,7 +9,7 @@ const cli = commands("aoenyx-api-gen");
 cli
   .command(
     "interfaces [appPath] [...filePaths]",
-    "Generate a set of typescript interfaces"
+    "Generate a set of typescript interfaces",
   )
   .option("--force", "Force the creation, deleting the given path if necessary")
   .option("--tsImportSuffix", "Use a '.ts' on import statements (deno)")
@@ -17,17 +17,17 @@ cli
     (
       appPath: string,
       filePaths: string[],
-      options: { force: boolean; tsImportSuffix: boolean }
+      options: { force: boolean; tsImportSuffix: boolean },
     ) => {
       alreadyExistsCheck(appPath, options.force);
       parseFiles(appPath, filePaths, options.tsImportSuffix);
-    }
+    },
   );
 
 cli
   .command(
     "deno-oak-server [appPath] [...filePaths]",
-    "Generate a router and interfaces for use with deno and oak"
+    "Generate a router and interfaces for use with deno and oak",
   )
   .option("--force", "Force the creation, deleting the given path if necessary")
   .action(
@@ -35,13 +35,13 @@ cli
       alreadyExistsCheck(appPath, options.force);
       const pathData = parseFiles(appPath, filePaths, true);
       generateDenoOakRouter(appPath, pathData, true);
-    }
+    },
   );
 
 cli
   .command(
     "fetch-client [appPath] [...filePaths]",
-    "Generate a client service and interfaces for use fetch"
+    "Generate a client service and interfaces for use fetch",
   )
   .option("--force", "Force the creation, deleting the given path if necessary")
   .option("--tsImportSuffix", "Use a '.ts' on import statements (deno)")
@@ -49,12 +49,12 @@ cli
     (
       appPath: string,
       filePaths: string[],
-      options: { force: boolean; tsImportSuffix: boolean }
+      options: { force: boolean; tsImportSuffix: boolean },
     ) => {
       alreadyExistsCheck(appPath, options.force);
       const pathData = parseFiles(appPath, filePaths, options.tsImportSuffix);
       generateFetchClient(appPath, pathData, options.tsImportSuffix);
-    }
+    },
   );
 
 cli.help();

@@ -1,2 +1,3 @@
-app/
-schema/
+app
+schema
+cov

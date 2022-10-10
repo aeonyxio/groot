@@ -20,7 +20,7 @@ export const alreadyExistsCheck = (appPath: string, force: boolean) => {
     Deno.removeSync(appPath, { recursive: true });
   } else if (targetExists) {
     throw new Error(
-      "Target directory already exists, use --force to force creation"
+      "Target directory already exists, use --force to force creation",
     );
   }
 };

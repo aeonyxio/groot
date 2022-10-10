@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from "../../../util/casing.ts";
 export const routerTemplate = (
   imports: string,
   operations: string,
-  routes: string
+  routes: string,
 ) =>
   `\
 import { Router } from "$oak/mod.ts";
@@ -19,7 +19,7 @@ router${routes};
 export const importInterfaceForRouter = (
   interfaceName: string,
   path: string,
-  tsImportSuffix: boolean
+  tsImportSuffix: boolean,
 ) => {
   return `import type { ${interfaceName} } from '${path}${
     tsImportSuffix ? ".ts" : ""

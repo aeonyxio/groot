@@ -21,9 +21,9 @@ const createSchema = ({
 }):
   | undefined
   | {
-      type: string;
-      path: string;
-    } => {
+    type: string;
+    path: string;
+  } => {
   let references: undefined | { type: string; path: string } = undefined;
   if (schema) {
     references = {
@@ -49,7 +49,7 @@ export const parsePath = (
   url: string,
   method: ApiMethods,
   rawEndpoint: Endpoint,
-  tsImportSuffix: boolean
+  tsImportSuffix: boolean,
 ) => {
   const { operationId } = rawEndpoint;
 
