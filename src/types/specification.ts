@@ -32,7 +32,8 @@ export interface Specification {
     };
   };
   components?: {
-    schemas: {
+    referenceId: string;
+    definitions: {
       [schema: string]: Schema;
     };
   };

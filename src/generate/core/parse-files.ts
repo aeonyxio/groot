@@ -1,20 +1,11 @@
 import { extname, join } from "https://deno.land/std@0.114.0/path/win32.ts";
 import { YAML } from "../../../deps.ts";
 import { PathData } from "../../types/path-data.ts";
-import {
-  apiMethods,
-  Schema,
-  Specification,
-} from "../../types/specification.ts";
+import { apiMethods, Specification } from "../../types/specification.ts";
 import { capitalizeFirstLetter } from "../../util/casing.ts";
 import { writeInterface } from "../../util/write-interface.ts";
 import { createType } from "./create-dto.ts";
 import { parsePath } from "./parse-path.ts";
-
-const isApiSchema = (path: string) =>
-  path.endsWith("api.json") ||
-  path.endsWith("api.yaml") ||
-  path.endsWith("api.yml");
 
 const getFileContents = (path: string) => {
   const fileExt = extname(path).toLowerCase();
@@ -29,7 +20,7 @@ const getFileContents = (path: string) => {
 export const parseFiles = (
   appPath: string,
   filePaths: string[],
-  tsImportSuffix: boolean,
+  tsImportSuffix: boolean
 ) => {
   const pathData = new Set<PathData>();
 
@@ -39,8 +30,9 @@ export const parseFiles = (
       throw new Error("The files must be a json or yaml format.");
     }
 
-    if (isApiSchema(filePath)) {
-      const specification = getFileContents(filePath) as Specification;
+    const specification = getFileContents(filePath) as Specification;
+
+    if (specification.paths) {
       for (const url of Object.getOwnPropertyNames(specification.paths)) {
         for (const method of apiMethods) {
           const rawEndpoint = specification.paths?.[url][method];
@@ -48,17 +40,20 @@ export const parseFiles = (
             continue;
           }
           pathData.add(
-            parsePath(appPath, url, method, rawEndpoint, tsImportSuffix),
+            parsePath(appPath, url, method, rawEndpoint, tsImportSuffix)
           );
         }
       }
-    } else {
-      const specification = getFileContents(filePath) as Record<string, Schema>;
-      for (const schemaName of Object.getOwnPropertyNames(specification)) {
+    }
+
+    if (specification.components) {
+      for (const schemaName of Object.getOwnPropertyNames(
+        specification.components.definitions
+      )) {
         const name = capitalizeFirstLetter(schemaName);
         const { code } = createType({
           name,
-          schema: specification[schemaName],
+          schema: specification.components.definitions[schemaName],
           depth: 0,
           semiColon: true,
           importPathPrefix: ".",
@@ -69,5 +64,6 @@ export const parseFiles = (
       }
     }
   }
+
   return pathData;
 };
