@@ -17,7 +17,7 @@ ${operations}
 export const importInterfaceTemplate = (
   interfaceName: string,
   path: string,
-  tsImportSuffix: boolean,
+  tsImportSuffix: boolean
 ) => {
   return `import type { ${interfaceName} } from '${path}${
     tsImportSuffix ? ".ts" : ""
@@ -50,9 +50,10 @@ export const operationsTemplate = ({
   textResponseBody: boolean;
 }) => {
   const fnName = operationId;
+  let fnParamsAllOptional = true;
   let fnParamVars = "";
   let fnParamVarTypes = "";
-  let fnReturnVars = "status:res.status,";
+  let fnReturnVars = "";
   let fnReturnVarTypes = "status:number;";
   let fetchOpts = "";
   let queryAssign = "";
@@ -60,6 +61,7 @@ export const operationsTemplate = ({
   if (pathParamsType) {
     fnParamVars += `params,`;
     fnParamVarTypes += `params: ${pathParamsType};`;
+    fnParamsAllOptional = false;
   }
 
   if (queryParamsType) {
@@ -68,18 +70,21 @@ export const operationsTemplate = ({
       fullyOptionalQueryParams ? "?" : ""
     }: ${queryParamsType};`;
     queryAssign = `\${query ? \`?\${new URLSearchParams(query)}\`: ''}`;
+    if (!fullyOptionalQueryParams) fnParamsAllOptional = false;
   }
 
   if (requestBodyType) {
     fnParamVars += `body,`;
     fnParamVarTypes += `body: ${requestBodyType};`;
     fetchOpts += "body,";
+    fnParamsAllOptional = false;
   }
 
   if (requestHeadersType) {
     fnParamVars += `headers,`;
     fnParamVarTypes += `headers: ${requestHeadersType};`;
     fetchOpts += "headers,";
+    fnParamsAllOptional = false;
   }
 
   if (responseBodyType) {
@@ -94,17 +99,17 @@ export const operationsTemplate = ({
 
   return `\
   ${fnName} = async (${
-    fnParamVarTypes === "" ? "" : `{
+    fnParamVarTypes === ""
+      ? ""
+      : `{
     ${fnParamVars}
-  }: {${fnParamVarTypes}}`
+  }: {${fnParamVarTypes}}${fnParamsAllOptional ? "={}" : ""}`
   }): Promise<{
     ${fnReturnVarTypes}
   }> => {
-    const res = await fetch(\`\${this.baseUri}${
-    clientUrlTemplate(
-      url,
-    )
-  }${queryAssign}\`,{
+    const res = await fetch(\`\${this.baseUri}${clientUrlTemplate(
+      url
+    )}${queryAssign}\`,{
       method: '${method.toUpperCase()}'
       ${fetchOpts}
     });
