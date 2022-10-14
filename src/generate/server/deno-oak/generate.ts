@@ -10,14 +10,15 @@ import {
 
 export const generateDenoOakRouter = (
   appPath: string,
-  pathData: Set<PathData>,
+  pathData: Map<string, PathData>,
   tsImportSuffix: boolean,
+  oakImport: string,
 ) => {
   const routeImports = new Set<string>();
   const routeOperations = new Set<string>();
   let routeCode = "";
 
-  for (const path of Array.from(pathData)) {
+  for (const path of Array.from(pathData.values())) {
     if (path.pathParams) {
       routeImports.add(
         importInterfaceForRouter(
@@ -77,6 +78,7 @@ export const generateDenoOakRouter = (
   }
 
   const routerCode = routerTemplate(
+    oakImport,
     Array.from(routeImports).join("\n"),
     Array.from(routeOperations).join("\n"),
     routeCode,

@@ -34,6 +34,8 @@ export const operationsTemplate = ({
   responseBodyType,
   requestHeadersType,
   responseHeadersType,
+  fullyOptionalQueryParams,
+  textResponseBody,
 }: {
   method: string;
   url: string;
@@ -44,6 +46,8 @@ export const operationsTemplate = ({
   responseBodyType?: string;
   requestHeadersType?: string;
   responseHeadersType?: string;
+  fullyOptionalQueryParams: boolean;
+  textResponseBody: boolean;
 }) => {
   const fnName = operationId;
   let fnParamVars = "";
@@ -60,8 +64,10 @@ export const operationsTemplate = ({
 
   if (queryParamsType) {
     fnParamVars += `query,`;
-    fnParamVarTypes += `query: ${queryParamsType};`;
-    queryAssign = `?\${new URLSearchParams(query)}`;
+    fnParamVarTypes += `query${
+      fullyOptionalQueryParams ? "?" : ""
+    }: ${queryParamsType};`;
+    queryAssign = `\${query ? \`?\${new URLSearchParams(query)}\`: ''}`;
   }
 
   if (requestBodyType) {
@@ -109,7 +115,7 @@ export const operationsTemplate = ({
 
     return {
       status: res.status,
-      body: await res.json(),
+      body: await res.${textResponseBody ? "text" : "json"}(),
     }
   }
 `;

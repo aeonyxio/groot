@@ -49,7 +49,7 @@ export const createType = (config: {
   if ((config.schema as ReferenceSchema).$ref) {
     const schema = config.schema as ReferenceSchema;
     const referencedType = schema.$ref.substring(
-      schema.$ref.lastIndexOf("/") + 1,
+      schema.$ref.lastIndexOf("#") + 1,
     );
     if (depth === 0) codeRes += `export type ${name} = `;
     codeRes += `${referencedType}`;
@@ -74,7 +74,7 @@ export const createType = (config: {
     const schema = config.schema as ObjectSchema;
     let props = "";
     if (schema.properties) {
-      for (const propName of Object.getOwnPropertyNames(schema.properties)) {
+      for (const propName of Object.keys(schema.properties)) {
         const { code, imports, description } = createType({
           schema: schema.properties[propName],
           depth: depth + 1,

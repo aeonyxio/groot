@@ -30,11 +30,24 @@ cli
     "Generate a router and interfaces for use with deno and oak",
   )
   .option("--force", "Force the creation, deleting the given path if necessary")
+  .option(
+    "--oakImport [import]",
+    "Allows the override of the oak import, defaults to '$oak'",
+  )
   .action(
-    (appPath: string, filePaths: string[], options: { force: boolean }) => {
+    (
+      appPath: string,
+      filePaths: string[],
+      options: { force: boolean; oakImport?: string },
+    ) => {
       alreadyExistsCheck(appPath, options.force);
       const pathData = parseFiles(appPath, filePaths, true);
-      generateDenoOakRouter(appPath, pathData, true);
+      generateDenoOakRouter(
+        appPath,
+        pathData,
+        true,
+        options.oakImport ?? "$oak",
+      );
     },
   );
 

@@ -1,3 +1,5 @@
+import { Method } from "./specification.ts";
+
 export interface PathData {
   method: string;
   url: string;
@@ -18,4 +20,7 @@ export interface PathData {
     type: string;
     path: string;
   };
+  raw: Method;
+  textResponseBody: boolean;
+  fullyOptionalQueryParams: boolean;
 }

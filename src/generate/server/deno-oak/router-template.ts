@@ -1,13 +1,14 @@
 import { capitalizeFirstLetter } from "../../../util/casing.ts";
 
 export const routerTemplate = (
+  oakImport: string,
   imports: string,
   operations: string,
   routes: string,
 ) =>
   `\
-import { Router } from "$oak/mod.ts";
-import { getQuery } from "$oak/helpers.ts";
+import { Router } from "${oakImport}/mod.ts";
+import { getQuery } from "${oakImport}/helpers.ts";
 ${imports}
 
 ${operations}

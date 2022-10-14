@@ -9,13 +9,13 @@ import {
 
 export const generateFetchClient = (
   appPath: string,
-  pathData: Set<PathData>,
+  pathData: Map<string, PathData>,
   tsImportSuffix: boolean,
 ) => {
   const routeImports = new Set<string>();
   const routeOperations = new Set<string>();
 
-  for (const path of Array.from(pathData)) {
+  for (const path of Array.from(pathData.values())) {
     if (path.pathParams) {
       routeImports.add(
         importInterfaceTemplate(
@@ -62,6 +62,8 @@ export const generateFetchClient = (
         queryParamsType: path.queryParams?.type,
         requestBodyType: path.requestBody?.type,
         responseBodyType: path.responseBody?.type,
+        fullyOptionalQueryParams: path.fullyOptionalQueryParams,
+        textResponseBody: path.textResponseBody,
       }),
     );
   }
